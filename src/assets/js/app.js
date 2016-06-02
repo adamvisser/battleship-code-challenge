@@ -12,6 +12,7 @@ angular.module("battle.Board", [])
 			playerTwoShips: [[]],
 			playerOneHitCount: 0,
 			playerTwoHitCount: 0,
+			test: 0,
 			isSetup: false
 		};
 		//these functions do the same thing, but to different arrays... should probs clean this up someway or another
@@ -128,6 +129,9 @@ angular.module("battle.Board", [])
 			BoardReturn.playerTwoShips[y+1][x] = 1;
 			BoardReturn.playerOneShips[y+2][x] = 1;
 			BoardReturn.playerTwoShips[y+2][x] = 1;
+
+			//for testing purposes
+			BoardReturn.test = 1;
 		}
 		return BoardReturn;
 	})
@@ -154,15 +158,20 @@ function homeController($scope, $location, Board){
 	//create player twos shots taken board
 	//create player ones ships board
 	//create player twos ships board
+	//all of the above comments happen in this one line, please note that we are not checking if its already setup so people can start new games without refreshing the page.
+	//o yeah just a quick test
+	alert(Board.test);
+	Board.setupBoards();
 	//otherwise just display some cool "hey welcome, find a friend and play the game" type text
-
+	
 	$scope.onReady = function(){
 		$location.path( "/instructions" );
 	}
 }
 
-function instructionController($scope, $location){
+function instructionController($scope, $location, Board){
 	//display some instructions on how to fire, how you can tell where you have shot before, and how to tell wehre you have been shot at before. 
+	alert(Board.test);
 	$scope.onReady = function(){
 		$location.path( "/playerOne" );
 	}
@@ -170,12 +179,24 @@ function instructionController($scope, $location){
 
 function playerOne($scope, Board){
 	//first we need to update the ships to show player ones ships
+	$scope.ships = Board.playerOneShips;
 	//this just changes the current display shots to player ones shots
+	$scope.shotsTaken = Board.playerOneShots;
 	//this just changes the current diplay shot at to player twos shots taken
+	$scope.shotsAt = Board.playerTwoShots;
 }
 
-function playerTwo($scope){
+function playerTwo($scope, Board){
 	//first we need to update the ships to show player twos ships
+	$scope.ships = Board.playerTwoShips;
 	//this just changes the current display shots to player twos shots
+	$scope.shotsTaken = Board.playerTwoShots;
 	//this just changes the current diplay shot at to player ones shots takend
+	$scope.shotsAt = Board.playerOneShots;
 }
+
+
+
+
+
+
