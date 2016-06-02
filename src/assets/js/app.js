@@ -41,6 +41,22 @@ angular.module("battle.Board", [])
 			}
 			return 0;
 		}
+		BoardReturn.playerOneWins = function(){
+			if (BoardReturn.playerOneHitCount < 20) {
+				if(BoardReturn.playerTwoHitCount > 19){
+					return true;
+				}
+			}
+			return false;
+		}
+		BoardReturn.playerTwoWins = function(){
+			if (BoardReturn.playerTwoHitCount < 20) {
+				if(BoardReturn.playerOneHitCount > 19){
+					return true;
+				}
+			}
+			return false;
+		}
 		BoardReturn.setupBoards = function(){
 			//8x8 field just like the actual battleship
 			//however, [0,0] is actually in the upper left rather than bottom left..... another commong thing to happen while game designing.....
