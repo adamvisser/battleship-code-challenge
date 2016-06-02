@@ -55,9 +55,63 @@ angular.module("battle.Board", [])
 				}
 			}
 			//at this point all the boards are empty, now its time to place the ships
-			//1 ship takes 3 hits, 3 ships take 4 hits, and 1 ship takes 5 hits.
+			//1 ship takes 3 hits, 3 ships take 4 hits, and 1 ship takes 5 hits. Trying to replicate the game
 			//rather than write a smart algorithm that will check if all the ships have been hit.... lets just keep track of how many times each player ends up hit...
-			//if a player takes 20 hits, hes most certainly out.
+			//if a player takes 20 hits, hes most certainly out. BUT this makes figuring out if a full ship has sunk a bit harder. Lets just get something working for now though
+			//for the time being just to get something into place lets go ahead and hard code the ships in......
+			//also please note that i had a grid drawn out in paper in front of me to ensure i dont have overlapping ships
+			var x = 4;
+			var y = 4;
+			//placing the first ship for each player, a 4 hit ship
+			BoardReturn.playerOneShips[y][x] = 1;
+			BoardReturn.playerTwoShips[y][x] = 1;
+			BoardReturn.playerOneShips[y+1][x] = 1;
+			BoardReturn.playerTwoShips[y+1][x] = 1;
+			BoardReturn.playerOneShips[y+2][x] = 1;
+			BoardReturn.playerTwoShips[y+2][x] = 1;
+			BoardReturn.playerOneShips[y+3][x] = 1;
+			BoardReturn.playerTwoShips[y+3][x] = 1;
+			//placing the second ship for each player, a 4 hit ship
+			BoardReturn.playerOneShips[y-2][x] = 1;
+			BoardReturn.playerTwoShips[y-2][x] = 1;
+			BoardReturn.playerOneShips[y-2][x+1] = 1;
+			BoardReturn.playerTwoShips[y-2][x+1] = 1;
+			BoardReturn.playerOneShips[y-2][x+2] = 1;
+			BoardReturn.playerTwoShips[y-2][x+2] = 1;
+			BoardReturn.playerOneShips[y-2][x+3] = 1;
+			BoardReturn.playerTwoShips[y-2][x+3] = 1;
+			//placing the third ship for each player, a 4 hit ship
+			x = 0;
+			y = 0;
+			BoardReturn.playerOneShips[y][x] = 1;
+			BoardReturn.playerTwoShips[y][x] = 1;
+			BoardReturn.playerOneShips[y+1][x] = 1;
+			BoardReturn.playerTwoShips[y+1][x] = 1;
+			BoardReturn.playerOneShips[y+2][x] = 1;
+			BoardReturn.playerTwoShips[y+2][x] = 1;
+			BoardReturn.playerOneShips[y+3][x] = 1;
+			BoardReturn.playerTwoShips[y+3][x] = 1;
+			//placing the fourth ship for each player, a 5 hit ship
+			x = 3;
+			BoardReturn.playerOneShips[y][x] = 1;
+			BoardReturn.playerTwoShips[y][x] = 1;
+			BoardReturn.playerOneShips[y+1][x] = 1;
+			BoardReturn.playerTwoShips[y+1][x] = 1;
+			BoardReturn.playerOneShips[y+2][x] = 1;
+			BoardReturn.playerTwoShips[y+2][x] = 1;
+			BoardReturn.playerOneShips[y+3][x] = 1;
+			BoardReturn.playerTwoShips[y+3][x] = 1;
+			BoardReturn.playerOneShips[y+4][x] = 1;
+			BoardReturn.playerTwoShips[y+4][x] = 1;
+			//placing the fith ship for each player, a 3 hit ship
+			x = 2;
+			y = 5;
+			BoardReturn.playerOneShips[y][x] = 1;
+			BoardReturn.playerTwoShips[y][x] = 1;
+			BoardReturn.playerOneShips[y+1][x] = 1;
+			BoardReturn.playerTwoShips[y+1][x] = 1;
+			BoardReturn.playerOneShips[y+2][x] = 1;
+			BoardReturn.playerTwoShips[y+2][x] = 1;
 		}
 		return BoardReturn;
 	})
