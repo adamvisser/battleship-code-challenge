@@ -187,6 +187,7 @@ function playerOne($scope, Board){
 	//maybe in the future the board size will change... but for now this is just a thing to make angulars ng-repeat work easier... also its magic numbers....
 	$scope.width = [0,1,2,3,4,5,6,7];
 	$scope.height = [0,1,2,3,4,5,6,7];
+	$scope.player = 'Player One';
 }
 
 function playerTwo($scope, Board){
@@ -199,6 +200,7 @@ function playerTwo($scope, Board){
 	//maybe in the future the board size will change... but for now this is just a thing to make angulars ng-repeat work easier... also its magic numbers....
 	$scope.width = [0,1,2,3,4,5,6,7];
 	$scope.height = [0,1,2,3,4,5,6,7];
+	$scope.player = 'Player Two';
 }
 
 
