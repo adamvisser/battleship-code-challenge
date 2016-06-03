@@ -14,9 +14,9 @@
 		</div>
 
 
-		<div ng-repeat="y in height" class="ui celled grid row">
+		<div ng-repeat="y in height" class="ui celled grid row"  style="margin: 0">
 			<div ng-repeat="x in width" class="two wide column">
-				<p>x is: {{x}}, y is: {{y}}</p>
+				<ship ship="{{ships[y][x]}}" shot="{{shotsAt[y][x]}}"></ship>
 			</div>
 		</div>
 	</div>
@@ -31,9 +31,9 @@
 		</div>
 
 
-		<div ng-repeat="y in height" class="ui celled grid row">
+		<div ng-repeat="y in height" class="ui celled grid row"  style="margin: 0;">
 			<div ng-repeat="x in width" class="two wide column">
-				<p>x is: {{x}}, y is: {{y}}</p>
+				<shot shot="{{shotsTaken[y][x]}}" y="{{y}}" x="{{x}}" fire="fire({y:y},{x:x})"></shot>
 			</div>
 		</div>
 	</div>

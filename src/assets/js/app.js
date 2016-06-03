@@ -2,9 +2,58 @@
 //           The Back End of the Front end
 //==================================================
 angular.module("battle.Board", [])
+	.directive('ship',function(){
+		return {
+			restrict: 'E',
+			scope: {
+				ship: '@ship',
+				shot: '@shot'
+			},
+			link: function(scope, element, attr) {
+				//add a color class depending on whats passed in for the ship
+				//ad a color class to the parent depending on if a shot has been taken
+				//0 is empty, 1 is unharmed ship, 2 is a ship already hit.
+				if (scope.ship == '0') {
+				} else if (scope.ship == '1') {
+					//this ship is fine!
+					element.addClass('ui button grey');
+				} else if (scope.ship =='2') {
+					//this ship has been shot!
+					element.addClass('ui button black');
+				}
+				if(scope.shot == 1){
+					element.parent().addClass('red');
+				}
+				
+			},
+		};
+	})
+	.directive('shot',function(){
+		return {
+			restrict: 'E',
+			scope: {
+				shot: '@shot',
+				x: '@x',
+				y: '@y',
+				fire: '&fire'
+			},
+			link: function($scope, element, attr){
+				if ($scope.shot == 0) {
+					element.addClass('ui button');
+				}else{
+					element.addClass('ui button white disabled');
+				}
+				element.on('mousedown', function(event) {
+					// Prevent default dragging of selected content
+					event.preventDefault();
+					$scope.$apply("fire({y:"+$scope.y+"},{x:"+$scope.x+"})");
+				});
+			},
+		};
+	})
 	.service('Board', function () {
 		var BoardReturn = {
-			//this array is a bunch of 1s and 0s. 1 if the player has taken a shot at that x,y value
+			//this array is a bunch of 1s and 0s. 1 if the player has taken a shot at that y,x value
 			playerOneShots: [[],[],[],[],[],[],[],[]],
 			playerTwoShots:  [[],[],[],[],[],[],[],[]],
 			//in this array we have 0s, 1s, and 2s. 0 is empty, 1 is unharmed ship, 2 is a ship already hit.
@@ -19,6 +68,7 @@ angular.module("battle.Board", [])
 		BoardReturn.playerOneShot = function(y,x){
 			//returns a 0 if nothing happens, 1 if its a hit, and -1 if the player already shot there
 			var alreadyShot = BoardReturn.playerOneShots[y][x];
+			BoardReturn.playerOneShots[y][x] = 1;
 			var shipIsThere = BoardReturn.playerTwoShips[y][x];
 			if (alreadyShot) {
 				return -1;
@@ -32,6 +82,7 @@ angular.module("battle.Board", [])
 		BoardReturn.playerTwoShot = function(y,x){
 			//returns a 0 if nothing happens, 1 if its a hit, and -1 if the player already shot there
 			var alreadyShot = BoardReturn.playerTwoShots[y][x];
+			BoardReturn.playerTwoShots[y][x] =1;
 			var shipIsThere = BoardReturn.playerOneShips[y][x];
 			if (alreadyShot) {
 				return -1;
@@ -55,6 +106,15 @@ angular.module("battle.Board", [])
 				if(BoardReturn.playerOneHitCount > 19){
 					return true;
 				}
+			}
+			return false;
+		}
+		BoardReturn.hasWinner = function(){
+			if(BoardReturn.playerTwoWins()){
+				return true;
+			}
+			if (BoardReturn.playerOneWins()) {
+				return true;
 			}
 			return false;
 		}
@@ -131,7 +191,7 @@ angular.module("battle.Board", [])
 			BoardReturn.playerTwoShips[y+2][x] = 1;
 		}
 		return BoardReturn;
-	})
+	});
 
 
 
@@ -146,6 +206,7 @@ var battle = angular.module("battle", ['ngAnimate', 'ngRoute', 'battle.Board']).
 		.when('/instructions', {templateUrl: '/views/instructions.html', controller: instructionController})
 		.when('/playerOne', {templateUrl: '/views/playerView.html', controller: playerOneController})
 		.when('/playerTwo', {templateUrl: '/views/playerView.html', controller: playerTwoController})
+		.when('/winner', {templateUrl: '/views/winner.html', controller: winnerController})
 	});
 
 function homeController($scope, $location, Board){
@@ -156,8 +217,6 @@ function homeController($scope, $location, Board){
 	//create player ones ships board
 	//create player twos ships board
 	//all of the above comments happen in this one line, please note that we are not checking if its already setup so people can start new games without refreshing the page.
-	//o yeah just a quick test
-	alert(Board.test);
 	Board.setupBoards();
 	//otherwise just display some cool "hey welcome, find a friend and play the game" type text
 	
@@ -168,26 +227,37 @@ function homeController($scope, $location, Board){
 
 function instructionController($scope, $location, Board){
 	//display some instructions on how to fire, how you can tell where you have shot before, and how to tell wehre you have been shot at before. 
-	alert(Board.test);
 	$scope.onReady = function(){
 		$location.path( "/playerOne" );
 	}
 }
 
-function playerOneController($scope, Board){
+function playerOneController($scope, $location, Board){
 	//first we need to update the ships to show player ones ships
 	$scope.ships = Board.playerOneShips;
 	//this just changes the current display shots to player ones shots
 	$scope.shotsTaken = Board.playerOneShots;
 	//this just changes the current diplay shot at to player twos shots taken
 	$scope.shotsAt = Board.playerTwoShots;
-	//maybe in the future the board size will change... but for now this is just a thing to make angulars ng-repeat work easier... also its magic numbers....
+	//maybe in the future the board size will change... but for now this is just a thing to make angulars ng-repeat work easier... also its magic numbers.... 
 	$scope.width = [0,1,2,3,4,5,6,7];
 	$scope.height = [0,1,2,3,4,5,6,7];
 	$scope.player = 'Player One';
+	$scope.fire = function(y,x){
+		//stuff gets funky here....
+		y = y.y;
+		x = x.x;
+		Board.playerOneShot(y,x);
+		if (Board.hasWinner()) {
+			$location.path( "/winner" );
+		} else {
+			$location.path( "/playerTwo" );
+		}
+		
+	}
 }
 
-function playerTwoController($scope, Board){
+function playerTwoController($scope, $location, Board){
 	//first we need to update the ships to show player twos ships
 	$scope.ships = Board.playerTwoShips;
 	//this just changes the current display shots to player twos shots
@@ -198,9 +268,27 @@ function playerTwoController($scope, Board){
 	$scope.width = [0,1,2,3,4,5,6,7];
 	$scope.height = [0,1,2,3,4,5,6,7];
 	$scope.player = 'Player Two';
+	$scope.fire = function(y,x){
+		y = y.y;
+		x = x.x;
+		Board.playerTwoShot(y,x);
+		if (Board.hasWinner()) {
+			$location.path( "/winner" );
+		} else {
+			$location.path( "/playerOne" );
+		}
+		
+	}
 }
 
-
+function winnerController($scope, Board){
+	if(BoardReturn.playerTwoWins()){
+		$scope.winner = 'Player Two';
+	}
+	if (BoardReturn.playerOneWins()) {
+		$scope.winner = 'Player One';
+	}
+}
 
 
 
