@@ -5,14 +5,14 @@ angular.module("battle.Board", [])
 	.service('Board', function () {
 		var BoardReturn = {
 			//this array is a bunch of 1s and 0s. 1 if the player has taken a shot at that x,y value
-			playerOneShots: [[]],
-			playerTwoShots: [[]],
+			playerOneShots: [[],[],[],[],[],[],[],[]],
+			playerTwoShots:  [[],[],[],[],[],[],[],[]],
 			//in this array we have 0s, 1s, and 2s. 0 is empty, 1 is unharmed ship, 2 is a ship already hit.
-			playerOneShips: [[]],
-			playerTwoShips: [[]],
-			playerOneHitCount: 0,
-			playerTwoHitCount: 0,
-			test: 0,
+			playerOneShips:  [[],[],[],[],[],[],[],[]],
+			playerTwoShips:  [[],[],[],[],[],[],[],[]],
+			//ugh I want to clean those arrays up somehow
+			playerOneHitCount:  0,
+			playerTwoHitCount:  0,
 			isSetup: false
 		};
 		//these functions do the same thing, but to different arrays... should probs clean this up someway or another
@@ -63,8 +63,8 @@ angular.module("battle.Board", [])
 			//however, [0,0] is actually in the upper left rather than bottom left..... another commong thing to happen while game designing.....
 			var width = 8;
 			var height = 8;
-			for (y = 0; y < height; i++) { 
-				for (x = 0; x < width; i++) { 
+			for (y = 0; y < height; y++) { 
+				for (x = 0; x < width; x++) { 
 					BoardReturn.playerOneShots[y][x] = 0;
 					BoardReturn.playerOneShips[y][x] = 0;
 					BoardReturn.playerTwoShots[y][x] = 0;
@@ -129,9 +129,6 @@ angular.module("battle.Board", [])
 			BoardReturn.playerTwoShips[y+1][x] = 1;
 			BoardReturn.playerOneShips[y+2][x] = 1;
 			BoardReturn.playerTwoShips[y+2][x] = 1;
-
-			//for testing purposes
-			BoardReturn.test = 1;
 		}
 		return BoardReturn;
 	})
@@ -177,7 +174,7 @@ function instructionController($scope, $location, Board){
 	}
 }
 
-function playerOne($scope, Board){
+function playerOneController($scope, Board){
 	//first we need to update the ships to show player ones ships
 	$scope.ships = Board.playerOneShips;
 	//this just changes the current display shots to player ones shots
@@ -190,7 +187,7 @@ function playerOne($scope, Board){
 	$scope.player = 'Player One';
 }
 
-function playerTwo($scope, Board){
+function playerTwoController($scope, Board){
 	//first we need to update the ships to show player twos ships
 	$scope.ships = Board.playerTwoShips;
 	//this just changes the current display shots to player twos shots

@@ -7,14 +7,14 @@
 <div class="row">
 
 	<div class="eight wide column">
-		<div class="row">
+		<div class="ui celled grid row">
 			<div class="eight wide centered column">
 				<h3>Your Ships and Shots taken at those ships</h3>
 			</div>
 		</div>
 
 
-		<div ng-repeat="y in height" class="row">
+		<div ng-repeat="y in height" class="ui celled grid row">
 			<div ng-repeat="x in width" class="two wide column">
 				<p>x is: {{x}}, y is: {{y}}</p>
 			</div>
@@ -24,14 +24,14 @@
 
 
 	<div class="eight wide column">
-		<div class="row">
+		<div class="ui celled grid row">
 			<div class="eight wide centered column">
 				<h3>Pick where to shoot next below</h3>
 			</div>
 		</div>
 
 
-		<div ng-repeat="y in height" class="row">
+		<div ng-repeat="y in height" class="ui celled grid row">
 			<div ng-repeat="x in width" class="two wide column">
 				<p>x is: {{x}}, y is: {{y}}</p>
 			</div>
