@@ -184,6 +184,9 @@ function playerOne($scope, Board){
 	$scope.shotsTaken = Board.playerOneShots;
 	//this just changes the current diplay shot at to player twos shots taken
 	$scope.shotsAt = Board.playerTwoShots;
+	//maybe in the future the board size will change... but for now this is just a thing to make angulars ng-repeat work easier... also its magic numbers....
+	$scope.width = [0,1,2,3,4,5,6,7];
+	$scope.height = [0,1,2,3,4,5,6,7];
 }
 
 function playerTwo($scope, Board){
@@ -193,6 +196,9 @@ function playerTwo($scope, Board){
 	$scope.shotsTaken = Board.playerTwoShots;
 	//this just changes the current diplay shot at to player ones shots takend
 	$scope.shotsAt = Board.playerOneShots;
+	//maybe in the future the board size will change... but for now this is just a thing to make angulars ng-repeat work easier... also its magic numbers....
+	$scope.width = [0,1,2,3,4,5,6,7];
+	$scope.height = [0,1,2,3,4,5,6,7];
 }
 
 
