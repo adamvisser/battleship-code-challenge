@@ -202,11 +202,11 @@ angular.module("battle.Board", [])
 var battle = angular.module("battle", ['ngAnimate', 'ngRoute', 'battle.Board']).
 	config(function ($routeProvider) {
 		$routeProvider
-		.when('/', {templateUrl: '/views/welcome.html', controller: homeController})
-		.when('/instructions', {templateUrl: '/views/instructions.html', controller: instructionController})
-		.when('/playerOne', {templateUrl: '/views/playerView.html', controller: playerOneController})
-		.when('/playerTwo', {templateUrl: '/views/playerView.html', controller: playerTwoController})
-		.when('/winner', {templateUrl: '/views/winner.html', controller: winnerController})
+		.when('/', {templateUrl: '/battleship/views/welcome.html', controller: homeController})
+		.when('/instructions', {templateUrl: '/battleship/views/instructions.html', controller: instructionController})
+		.when('/playerOne', {templateUrl: '/battleship/views/playerView.html', controller: playerOneController})
+		.when('/playerTwo', {templateUrl: '/battleship/views/playerView.html', controller: playerTwoController})
+		.when('/winner', {templateUrl: '/battleship/views/winner.html', controller: winnerController})
 	});
 
 function homeController($scope, $location, Board){
